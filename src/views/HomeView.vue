@@ -1,18 +1,33 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Home</h1>
+    <div class="search-bar">
+      <form>
+        <input type="text" v-model="searchTerm" @change="search" />
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { ref } from "@vue/reactivity";
 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
-}
+  name: "HomeView",
+  setup() {
+    const searchTerm = ref("");
+    const timeout = ref(null);
+
+    const search = () => {
+      if (timeout.value) {
+        clearTimeout(timeout.value);
+      }
+      timeout.value = setTimeout(() => {
+        console.log(searchTerm.value); // TODO: add fetch method later
+      }, 500);
+    };
+
+    return { searchTerm, search };
+  },
+};
 </script>
