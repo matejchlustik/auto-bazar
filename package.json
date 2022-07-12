@@ -1,25 +1,38 @@
 {
-  "name": "auto-bazar",
-  "version": "0.1.0",
-  "private": true,
+  "name": "auto-bazar-server",
+  "version": "1.0.0",
+  "description": "a server for auto-bazar website",
+  "main": "server.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm run serve --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matejchlustik/auto-bazar.git"
+  },
+  "author": "Matej Chlustik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matejchlustik/auto-bazar/issues"
+  },
+  "homepage": "https://github.com/matejchlustik/auto-bazar#readme",
   "dependencies": {
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.30.0",
+    "colors": "^1.4.0",
+    "concurrently": "^7.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.4.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "nodemon": "^2.0.18"
   }
 }
