@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler")
 const Offer = require("../models/offerModel")
 const { cloudinary } = require("../utils/cloudinary")
 const { validationResult } = require('express-validator');
+const { json } = require("express");
 
 // @desc Get all offers
 // @route GET /api/offers
@@ -38,9 +39,22 @@ const postOffer = asyncHandler(async (req, res) => {
     res.status(201).json(offer)
 })
 
+// @desc Search offers with query 
+// @route POST /api/offers/search
+// @access public
+const searchOffers = asyncHandler(async (req, res) => {
+    if (!req.body.searchQuery) {
+        res.status(400).json({ error: "Please specify category" })
+    }
+
+    const offers = await Offer.find(req.body.searchQuery)
+    res.status(200).json(offers)
+})
+
 
 
 module.exports = {
     getOffers,
-    postOffer
+    postOffer,
+    searchOffers
 }

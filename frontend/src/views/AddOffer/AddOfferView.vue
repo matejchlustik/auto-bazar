@@ -6,24 +6,33 @@
         <div class="form-half">
           <div class="quarter">
             <h2>Informácie o vozidle</h2>
-            <FormInput label="Kategória vozidla" type="select" :options="vehicleCategories"
+            <FormInput label="Kategória vozidla" type="select" :options="vehicleCategories" :error="formErrors.category"
               v-model="formData.category" />
             <FormInput label="Značka" type="select"
               :options="formData.category === 'Osobné a úžitkové autá' ? carMakes : motorcycleMakes"
-              v-model="formData.make" />
-            <FormInput placeholder="Octavia" label="Model" v-model="formData.model" />
-            <FormInput label="Typ paliva" type="select" :options="fuelTypes" v-model="formData.fuel" />
-            <FormInput placeholder="2010" label="Rok" v-model="formData.year" />
-            <FormInput placeholder="24000" label="Najazdené kilometre" v-model="formData.km" />
-            <FormInput placeholder="8000" label="Cena" v-model="formData.price" />
+              :error="formErrors.category" v-model="formData.make" />
+            <FormInput placeholder="Octavia" label="Model" type="text" :error="formErrors.model"
+              v-model="formData.model" />
+            <FormInput label="Typ paliva" type="select" :options="fuelTypes" :error="formErrors.fuel"
+              v-model="formData.fuel" />
+            <FormInput placeholder="2010" label="Rok" type="number" :error="formErrors.year" v-model="formData.year" />
+            <FormInput placeholder="24000" label="Najazdené kilometre" type="number" :error="formErrors.km"
+              v-model="formData.km" />
+            <FormInput placeholder="8000" label="Cena" type="number" :error="formErrors.price"
+              v-model="formData.price" />
           </div>
           <div class="quarter">
             <h2>Kontaktné informácie</h2>
-            <FormInput placeholder="Martin Novák" label="Meno" v-model="formData.contact.name" />
-            <FormInput placeholder="Nitra" label="Mesto" v-model="formData.contact.city" />
-            <FormInput placeholder="945 22" label="PSČ" v-model="formData.contact.postal_code" />
-            <FormInput placeholder="+421 123 123" label="Tel.číslo" v-model="formData.contact.number" />
-            <FormInput placeholder="abc@gmail.com" label="Email" v-model="formData.contact.email" />
+            <FormInput placeholder="Martin Novák" label="Meno" type="text" :error="formErrors.contact.name"
+              v-model="formData.contact.name" />
+            <FormInput placeholder="Nitra" label="Mesto" type="text" :error="formErrors.contact.city"
+              v-model="formData.contact.city" />
+            <FormInput placeholder="945 22" label="PSČ" type="text" :error="formErrors.contact.postal_code"
+              v-model="formData.contact.postal_code" />
+            <FormInput placeholder="+421 123 123" label="Tel.číslo" type="text" :error="formErrors.contact.number"
+              v-model="formData.contact.number" />
+            <FormInput placeholder="abc@gmail.com" label="Email" type="text" :error="formErrors.contact.email"
+              v-model="formData.contact.email" />
           </div>
         </div>
         <FileInput @upload="handleUpload" @remove="removeFile" />
@@ -33,13 +42,15 @@
       </div>
     </form>
   </div>
-
 </template>
 
 <script>
-import { onMounted, reactive, ref } from 'vue'
-import FormInput from "../../components/FormInput";
+import { reactive } from 'vue'
+
+import FormInput from "../../components/FormInput"
 import FileInput from "./FileInput"
+
+import getSelectValues from "../../composables/getSelectValues"
 
 export default {
   components: {
@@ -47,9 +58,9 @@ export default {
     FileInput
   },
   setup() {
-    const motorcycleMakes = ref(null)
-    const carMakes = ref(null)
+    const { motorcycleMakes, carMakes, vehicleCategories, fuelTypes } = getSelectValues()
 
+    //TODO: this seems duplicate, make into one
     const formData = reactive({
       category: "",
       make: "",
@@ -68,24 +79,24 @@ export default {
       images: []
     });
 
-    const vehicleCategories = ["Osobné a úžitkové autá", "Motocykle, skútre a štvorkolky"]
-    const fuelTypes = ["Benzín", "Diesel", "LPG + benzín", "CNG", "Hybrid", "Elektromotor", "Bioetanol"]
-
-    onMounted(async () => {
-      try {
-        const motorcycleRes = await fetch("https://raw.githubusercontent.com/evghenix/Cars-Motorcycles-DataBase-JSON/master/moto_brands.json")
-        const carRes = await fetch("https://raw.githubusercontent.com/evghenix/Cars-Motorcycles-DataBase-JSON/master/car_brands.json")
-        if (!motorcycleRes.ok || !carRes.ok) {
-          throw Error("Failed to fetch")
-        }
-        let motorcycleData = await motorcycleRes.json()
-        let carData = await carRes.json()
-        motorcycleMakes.value = (Object.values(motorcycleData)[0].map(item => item.name))
-        carMakes.value = (Object.values(carData)[0].map(item => item.name))
-      } catch (error) {
-        console.log(error)
+    const initialErrors = () => ({
+      category: "",
+      make: "",
+      model: "",
+      fuel: "",
+      year: "",
+      km: "",
+      price: "",
+      contact: {
+        name: "",
+        city: "",
+        postal_code: "",
+        number: "",
+        email: ""
       }
     })
+
+    const formErrors = reactive({ ...initialErrors() })
 
     const handleUpload = (file) => {
       formData.images.push({ source: file.source, id: file.id })
@@ -98,6 +109,10 @@ export default {
     }
 
     const handleSubmit = async () => {
+      Object.assign(formErrors, initialErrors());
+      if (!formValidation()) {
+        return
+      }
       try {
         const res = await fetch("http://localhost:5000/api/offers", {
           method: "POST",
@@ -111,7 +126,36 @@ export default {
       }
     }
 
-    return { formData, vehicleCategories, fuelTypes, carMakes, motorcycleMakes, handleUpload, handleSubmit, removeFile }
+    const formValidation = () => {
+      let validation = true
+      if (formData.year.length !== 4 || !/^\d+$/.test(formData.year)) {
+        formErrors.year = "Nesprávny rok"
+        validation = false
+      }
+      if (!/^\d+$/.test(formData.km)) {
+        formErrors.km = "Nesprávny formát, použite iba celé čísla"
+        validation = false
+      }
+      if (!/^\d+$/.test(formData.price)) {
+        formErrors.price = "Nesprávny formát, použite iba celé čísla"
+        validation = false
+      }
+      if (!/^\d{3}\s+\d{2}/.test(formData.contact.postal_code)) {
+        formErrors.contact.postal_code = "Nesprávny formát "
+        validation = false
+      }
+      if (!/^[+]?[()/0-9. -]{9,}$/.test(formData.contact.number)) {
+        formErrors.contact.number = "Nesprávny formát čísla"
+        validation = false
+      }
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.contact.email)) {
+        formErrors.contact.email = "Nesprávny email"
+        validation = false
+      }
+      return validation
+    }
+
+    return { formData, formErrors, vehicleCategories, fuelTypes, carMakes, motorcycleMakes, handleUpload, handleSubmit, removeFile }
   }
 }
 </script>
@@ -120,7 +164,7 @@ export default {
 .container {
   background-color: #fff;
   margin: 48px auto;
-  width: 75%;
+  width: 70%;
   text-align: center;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
@@ -151,20 +195,19 @@ export default {
 .quarter {
   flex-basis: 50%;
   padding: 15px;
-  margin: 0 auto
+  margin-right: 30px;
 }
 
 h2 {
   text-align: left;
   padding: 10px;
-  width: 80%;
   margin: 0 auto;
 }
 
 input[type=submit] {
   color: #fff;
   background-color: rgb(86, 137, 255);
-  padding: 8px 24px 8px 24px;
+  padding: 8px 24px;
   margin: 20px auto;
   margin-bottom: 50px;
   border-radius: 6px;
@@ -185,13 +228,13 @@ input[type=submit]:active {
   }
 
   .container {
-    width: 100%;
-    margin: 0;
+    margin: 0 auto;
+    width: 85%;
   }
 
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 900px) {
   .form-content {
     flex-direction: column;
   }

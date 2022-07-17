@@ -4,8 +4,11 @@
         <div class="file-input-button-container">
             <label class="file-input-button">
                 Nahrať súbory
-                <input type="file" @change="fileInputChange" multiple>
+                <input type="file" @change="fileInputChange" multiple accept="image/*">
             </label>
+            <div class="error">
+                <p v-if="error">{{ error }}</p>
+            </div>
         </div>
         <div class="file-input" :class="{ active: active }" @drop.prevent="onDrop" @dragover.prevent="setActive"
             @dragenter.prevent="setActive" @dragleave.prevent="setInactive">
@@ -28,6 +31,7 @@ export default {
     setup(_, { emit }) {
         const files = ref([])
         const active = ref(false)
+        const error = ref(null)
         let fileId = 1
         let inActiveTimeout = null
 
@@ -43,12 +47,17 @@ export default {
         const onDrop = (e) => {
             setInactive()
             Array.from(e.dataTransfer.files).forEach((file) => {
-                let reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onloadend = () => {
-                    files.value.push({ name: file.name, source: reader.result, id: fileId })
-                    emit("upload", { name: file.name, source: reader.result, id: fileId })
-                    fileId++;
+                if (file.type.includes("image")) {
+                    let reader = new FileReader()
+                    reader.readAsDataURL(file)
+                    reader.onloadend = () => {
+                        files.value.push({ name: file.name, source: reader.result, id: fileId })
+                        emit("upload", { name: file.name, source: reader.result, id: fileId })
+                        fileId++;
+                    }
+                } else {
+                    error.value = "Nahrávajte iba obrázky"
+                    console.log(error.value)
                 }
             })
         }
@@ -73,7 +82,7 @@ export default {
             })
         }
 
-        return { files, active, onDrop, fileInputChange, setActive, setInactive, removeFile }
+        return { files, active, error, onDrop, fileInputChange, setActive, setInactive, removeFile }
     }
 
 }
@@ -166,5 +175,16 @@ img:hover {
 
 input[type="file"] {
     display: none;
+}
+
+.error {
+    text-align: left;
+}
+
+.error p {
+    word-wrap: break-word;
+    color: rgb(255, 86, 86);
+    margin: 0;
+    margin-top: 14px;
 }
 </style>
