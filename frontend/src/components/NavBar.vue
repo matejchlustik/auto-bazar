@@ -3,11 +3,10 @@
         <div class="left">
             <p>Auto bazar</p>
         </div>
-
         <div class="links">
             <router-link to="/">Home</router-link>
             <router-link to="/about">About</router-link>
-            <router-link to="/addOffer" class="red-highlight">Add Offer</router-link>
+            <router-link to="/addOffer" class="red-highlight">Pridať inzerát</router-link>
         </div>
         <div class="right">
             <p>Auto bazar</p>
@@ -84,8 +83,6 @@ a:visited {
     border: none;
     margin: 0 14px;
 }
-
-
 
 @media only screen and (max-width: 600px) {
     nav {

@@ -82,7 +82,7 @@ label {
 
 .error {
     text-align: left;
-    width: 80%;
+    align-self: flex-start;
 }
 
 p {

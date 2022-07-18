@@ -90,8 +90,6 @@ export default {
 
 <style scoped>
 .file-input-half {
-    padding: 20px;
-    padding-top: 0px;
     margin: 0 auto;
     flex-basis: 40%;
     display: flex;

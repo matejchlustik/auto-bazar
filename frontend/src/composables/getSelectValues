@@ -4,6 +4,7 @@ const getSelectValues = () => {
 
     const motorcycleMakes = ref(null)
     const carMakes = ref(null)
+    const err = ref(null)
 
     const vehicleCategories = ["Osobné a úžitkové autá", "Motocykle, skútre a štvorkolky"]
     const fuelTypes = ["Benzín", "Diesel", "LPG + benzín", "CNG", "Hybrid", "Elektromotor", "Bioetanol"]
@@ -20,12 +21,12 @@ const getSelectValues = () => {
             motorcycleMakes.value = (Object.values(motorcycleData)[0].map(item => item.name))
             carMakes.value = (Object.values(carData)[0].map(item => item.name))
         } catch (error) {
-            console.log(error)
+            err.value = error
         }
     }
     getValues()
 
-    return { motorcycleMakes, carMakes, vehicleCategories, fuelTypes }
+    return { motorcycleMakes, carMakes, vehicleCategories, fuelTypes, err }
 }
 
 export default getSelectValues

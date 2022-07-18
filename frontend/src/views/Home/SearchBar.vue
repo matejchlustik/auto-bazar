@@ -1,7 +1,7 @@
 <template>
     <div class="search-bar">
         <h1>Vyhľadávanie</h1>
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleSubmit" v-if="!err">
             <div class="form-content">
                 <div class="row">
                     <FormInput type="select" label="Kategória vozidla" :options="vehicleCategories"
@@ -13,7 +13,7 @@
                     <FormInput type="select" label="Typ Paliva" :options="fuelTypes" :require="false"
                         v-model="formData.fuel" />
                 </div>
-                <div class="row">
+                <div class="row bottom-row">
                     <FormInput type="number" label="Rok" :require="false" v-model="formData.year" />
                     <FormInput type="number" label="Najazdené kilometre" :require="false" v-model="formData.km" />
                     <FormInput type="number" label="Cena" :require="false" v-model="formData.price" />
@@ -23,6 +23,7 @@
                 </div>
             </div>
         </form>
+        <h2 class="error-message" v-else>There has been an error</h2>
     </div>
 </template>
 
@@ -40,9 +41,8 @@ export default {
     },
     setup() {
         const router = useRouter()
-        const { motorcycleMakes, carMakes, vehicleCategories, fuelTypes } = getSelectValues()
+        const { motorcycleMakes, carMakes, vehicleCategories, fuelTypes, err } = getSelectValues()
 
-        //TODO: validate year?
         const formData = reactive({
             category: "",
             make: "",
@@ -60,7 +60,7 @@ export default {
             })
         }
 
-        return { formData, motorcycleMakes, carMakes, vehicleCategories, fuelTypes, handleSubmit }
+        return { formData, motorcycleMakes, carMakes, vehicleCategories, fuelTypes, err, handleSubmit }
     }
 }
 </script>
@@ -77,6 +77,10 @@ h1 {
     justify-content: space-between;
 }
 
+.bottom-row {
+    margin-bottom: 30px;
+}
+
 .form-content {
     display: flex;
     flex-direction: column;
@@ -88,7 +92,6 @@ h1 {
     background-color: #fff;
     border-radius: 10px;
     padding: 10px 60px;
-    padding-bottom: 40px;
     box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
 }
 

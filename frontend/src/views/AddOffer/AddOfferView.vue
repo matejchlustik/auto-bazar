@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1>Pridanie ponuky</h1>
-    <form @submit.prevent="handleSubmit">
+    <h1>Pridanie inzerátu</h1>
+    <form @submit.prevent="handleSubmit" v-if="!err">
       <div class="form-content">
         <div class="form-half">
           <div class="quarter">
@@ -38,9 +38,10 @@
         <FileInput @upload="handleUpload" @remove="removeFile" />
       </div>
       <div class="submit-btn">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Pridať">
       </div>
     </form>
+    <h2 class="error-message" v-else>There has been an error</h2>
   </div>
 </template>
 
@@ -58,10 +59,9 @@ export default {
     FileInput
   },
   setup() {
-    const { motorcycleMakes, carMakes, vehicleCategories, fuelTypes } = getSelectValues()
+    const { motorcycleMakes, carMakes, vehicleCategories, fuelTypes, err } = getSelectValues()
 
-    //TODO: this seems duplicate, make into one
-    const formData = reactive({
+    const initialFormData = () => ({
       category: "",
       make: "",
       model: "",
@@ -79,24 +79,8 @@ export default {
       images: []
     });
 
-    const initialErrors = () => ({
-      category: "",
-      make: "",
-      model: "",
-      fuel: "",
-      year: "",
-      km: "",
-      price: "",
-      contact: {
-        name: "",
-        city: "",
-        postal_code: "",
-        number: "",
-        email: ""
-      }
-    })
-
-    const formErrors = reactive({ ...initialErrors() })
+    const formData = reactive({ ...initialFormData() })
+    const formErrors = reactive({ ...initialFormData() })
 
     const handleUpload = (file) => {
       formData.images.push({ source: file.source, id: file.id })
@@ -109,7 +93,7 @@ export default {
     }
 
     const handleSubmit = async () => {
-      Object.assign(formErrors, initialErrors());
+      Object.assign(formErrors, initialFormData());
       if (!formValidation()) {
         return
       }
@@ -155,7 +139,7 @@ export default {
       return validation
     }
 
-    return { formData, formErrors, vehicleCategories, fuelTypes, carMakes, motorcycleMakes, handleUpload, handleSubmit, removeFile }
+    return { formData, formErrors, vehicleCategories, fuelTypes, carMakes, motorcycleMakes, err, handleUpload, handleSubmit, removeFile }
   }
 }
 </script>
@@ -163,8 +147,10 @@ export default {
 <style scoped>
 .container {
   background-color: #fff;
-  margin: 48px auto;
-  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 15px 0px;
+  width: 60%;
   text-align: center;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
@@ -172,6 +158,7 @@ export default {
 
 .container h1 {
   padding: 24px;
+  padding-bottom: 0px;
   margin: 0;
 }
 
@@ -184,8 +171,6 @@ export default {
 }
 
 .form-half {
-  padding: 20px;
-  padding-top: 0px;
   margin: 0 auto;
   flex-basis: 50%;
   display: flex;
@@ -198,18 +183,21 @@ export default {
   margin-right: 30px;
 }
 
-h2 {
+.quarter h2 {
   text-align: left;
   padding: 10px;
   margin: 0 auto;
+}
+
+.submit-btn {
+  padding: 6px;
+  margin: 0px 6px;
 }
 
 input[type=submit] {
   color: #fff;
   background-color: rgb(86, 137, 255);
   padding: 8px 24px;
-  margin: 20px auto;
-  margin-bottom: 50px;
   border-radius: 6px;
   border: none;
   font-size: 18px;
@@ -221,7 +209,7 @@ input[type=submit]:active {
   background-color: rgba(86, 137, 255, 0.493);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
 
   .form-half {
     flex-direction: column;
@@ -231,10 +219,9 @@ input[type=submit]:active {
     margin: 0 auto;
     width: 85%;
   }
-
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 1100px) {
   .form-content {
     flex-direction: column;
   }
