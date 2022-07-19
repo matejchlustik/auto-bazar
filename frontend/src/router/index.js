@@ -1,19 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Home/HomeView.vue'
-import AboutView from "../views/AboutView.vue"
 import AddOfferView from "../views/AddOffer/AddOfferView.vue"
 import SearchResults from "../views/SearchResults.vue"
+import SingleOffer from "../views/SingleOffer.vue"
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: AboutView
   },
   {
     path: "/addOffer",
@@ -24,7 +19,13 @@ const routes = [
     path: "/searchResults",
     name: "searchResults",
     component: SearchResults
-  }
+  },
+  {
+    path: "/offer/:id",
+    name: "offer",
+    component: SingleOffer,
+    props: true
+  },
 ]
 
 const router = createRouter({

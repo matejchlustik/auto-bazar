@@ -98,7 +98,7 @@ export default {
         return
       }
       try {
-        const res = await fetch("http://localhost:5000/api/offers", {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/api/offers`, {
           method: "POST",
           body: JSON.stringify(formData),
           headers: { "Content-type": "application/json" }

@@ -5,7 +5,6 @@
         </div>
         <div class="links">
             <router-link to="/">Home</router-link>
-            <router-link to="/about">About</router-link>
             <router-link to="/addOffer" class="red-highlight">Pridať inzerát</router-link>
         </div>
         <div class="right">
@@ -21,7 +20,6 @@ nav {
     font-size: 18px;
     display: flex;
     justify-content: space-between;
-
     position: fixed;
     width: 100%;
     top: 0;

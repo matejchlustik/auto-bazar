@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler")
 const Offer = require("../models/offerModel")
 const { cloudinary } = require("../utils/cloudinary")
 const { validationResult } = require('express-validator');
-const { json } = require("express");
 
 // @desc Get all offers
 // @route GET /api/offers
@@ -44,10 +43,18 @@ const postOffer = asyncHandler(async (req, res) => {
 // @access public
 const searchOffers = asyncHandler(async (req, res) => {
     if (!req.body.searchQuery) {
-        res.status(400).json({ error: "Please specify category" })
+        res.status(400).json({ error: "No search query" })
     }
 
     const offers = await Offer.find(req.body.searchQuery)
+    res.status(200).json(offers)
+})
+
+// @desc Get 3 latest offers with images
+// @route GET /api/offers/latest
+// @access public
+const getLatestOffers = asyncHandler(async (req, res) => {
+    const offers = await Offer.find({ images: { $type: 'array', $ne: [] } }).sort({ _id: -1 }).limit(3)
     res.status(200).json(offers)
 })
 
@@ -56,5 +63,6 @@ const searchOffers = asyncHandler(async (req, res) => {
 module.exports = {
     getOffers,
     postOffer,
-    searchOffers
+    searchOffers,
+    getLatestOffers
 }

@@ -74,7 +74,6 @@ select:focus {
 
 label {
     margin-bottom: 6px;
-    font-size: 16px;
     color: black;
     align-self: flex-start;
     text-align: left;
