@@ -59,7 +59,7 @@ export default {
 
 .offers {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
     padding-bottom: 10px;
 }

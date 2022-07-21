@@ -18,7 +18,7 @@
                     <FormInput type="number" label="Najazdené kilometre" :require="false" v-model="formData.km" />
                     <FormInput type="number" label="Cena" :require="false" v-model="formData.price" />
                     <div class="submit-btn">
-                        <input type="submit" value="Hladať">
+                        <input type="submit" value="Hľadať">
                     </div>
                 </div>
             </div>
@@ -54,9 +54,10 @@ export default {
         })
 
         const handleSubmit = () => {
+            const cleanedQueryString = Object.entries(formData).reduce((acc, [k, v]) => v ? { ...acc, [k]: v } : acc, {})
             router.push({
                 name: "searchResults",
-                query: { ...formData }
+                query: { ...cleanedQueryString }
             })
         }
 

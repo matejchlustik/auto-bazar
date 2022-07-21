@@ -38,15 +38,28 @@ const postOffer = asyncHandler(async (req, res) => {
     res.status(201).json(offer)
 })
 
-// @desc Search offers with query 
-// @route POST /api/offers/search
+// @desc Get offers with qery
+// @route GET /api/offers/search
 // @access public
 const searchOffers = asyncHandler(async (req, res) => {
-    if (!req.body.searchQuery) {
-        res.status(400).json({ error: "No search query" })
+    if (Object.keys(req.query).length === 0) {
+        res.status(400).json({ error: "Missing query string" })
     }
 
-    const offers = await Offer.find(req.body.searchQuery)
+    const searchQuery = {}
+    for (const [key, value] of Object.entries(req.query)) {
+        if (value.length > 0) {
+            if (key === "year" || key === "km") {
+                searchQuery[key] = { $gte: value };
+            } else if (key === "price") {
+                searchQuery[key] = { $lte: value };
+            } else {
+                searchQuery[key] = value;
+            }
+        }
+    }
+
+    const offers = await Offer.find(searchQuery)
     res.status(200).json(offers)
 })
 
@@ -58,11 +71,22 @@ const getLatestOffers = asyncHandler(async (req, res) => {
     res.status(200).json(offers)
 })
 
+// @desc Get offer by id
+// @route GET /api/offers/:id
+// @access public
+const getOffer = asyncHandler(async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).json({ error: "Missing id" })
+    }
 
+    const offer = await (Offer.findById(req.params.id))
+    res.status(200).json(offer)
+})
 
 module.exports = {
     getOffers,
     postOffer,
     searchOffers,
-    getLatestOffers
+    getLatestOffers,
+    getOffer
 }

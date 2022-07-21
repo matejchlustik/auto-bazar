@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Home/HomeView.vue'
 import AddOfferView from "../views/AddOffer/AddOfferView.vue"
 import SearchResults from "../views/SearchResults.vue"
-import SingleOffer from "../views/SingleOffer.vue"
+import OfferDetails from "../views/OfferDetails.vue"
 
 const routes = [
   {
@@ -23,7 +23,7 @@ const routes = [
   {
     path: "/offer/:id",
     name: "offer",
-    component: SingleOffer,
+    component: OfferDetails,
     props: true
   },
 ]

@@ -4,7 +4,7 @@
             <p>Auto bazar</p>
         </div>
         <div class="links">
-            <router-link to="/">Home</router-link>
+            <router-link to="/">Domov</router-link>
             <router-link to="/addOffer" class="red-highlight">Pridať inzerát</router-link>
         </div>
         <div class="right">

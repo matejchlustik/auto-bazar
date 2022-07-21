@@ -3,8 +3,11 @@
         <h2>{{ offer.make }} {{ offer.model }}</h2>
         <span>cena: {{ offer.price }} €</span>
         <span>kilometre: {{ offer.km }} km</span>
-        <span>tel: {{ offer.contact.number }}</span>
-        <img :src="offer.images[0]">
+        <span>ročník: {{ offer.year }}</span>
+        <img v-if="offer.images.length > 0" :src="offer.images[0]">
+        <div v-else class="no-images">
+            <span>Žiadne obrázky</span>
+        </div>
     </div>
 </template>
 
@@ -12,6 +15,7 @@
 
 export default {
     props: ["offer"],
+
 }
 </script>
 
@@ -33,9 +37,11 @@ img {
     height: auto;
     object-fit: scale-down;
     margin: 15px 0px;
+    margin-top: auto;
 }
 
 span {
+    display: block;
     margin: 10px 0px;
     box-sizing: border-box;
     padding: 0px 20px;
@@ -50,5 +56,20 @@ h2 {
     width: 100%;
     text-align: left;
     font-size: 22px;
+}
+
+.no-images {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: 10px 0px;
+    box-sizing: border-box;
+    padding: 0px 20px;
+}
+
+.no-images span {
+    font-size: 18px;
+    padding: 0;
 }
 </style>

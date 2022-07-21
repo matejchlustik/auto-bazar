@@ -103,6 +103,9 @@ export default {
           body: JSON.stringify(formData),
           headers: { "Content-type": "application/json" }
         })
+        if (!res.ok) {
+          throw Error("Something went wrong")
+        }
         const data = await res.json()
         console.log(data);
       } catch (error) {
