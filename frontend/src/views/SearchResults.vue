@@ -1,6 +1,8 @@
 <template>
     <div class="container">
-        <div class="offers-container">
+        <h2 class="error-message" v-if="pending">Načítavanie...</h2>
+        <h2 class="error-message" v-if="error && !pending">{{ error }}</h2>
+        <div class="offers-container" v-if="offers && !pending">
             <div class="flex-offer" v-for="offer in offers" :key="offer._id">
                 <router-link :to="{ name: 'offer', params: { id: offer._id } }">
                     <OfferCard :offer="offer" />
@@ -12,7 +14,8 @@
 
 <script>
 
-import { onMounted, ref } from 'vue';
+import useFetch from '@/composables/useFetch';
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 
 import OfferCard from "../components/OfferCard.vue"
@@ -23,24 +26,14 @@ export default {
     },
     setup() {
         const route = useRoute()
-        const offers = ref(null)
         const queryString = new URLSearchParams(route.query).toString();
-
-        console.log(offers)
+        const { data: offers, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/search?${queryString}`)
 
         onMounted(async () => {
-            try {
-                const res = await fetch(`${process.env.VUE_APP_API_URL}/api/offers/search?${queryString}`)
-                if (!res.ok) {
-                    throw Error("Something went wrong")
-                }
-                offers.value = await res.json()
-            } catch (error) {
-                console.log(error);
-            }
+            getData()
         })
 
-        return { offers }
+        return { offers, pending, error }
 
     }
 }
@@ -69,5 +62,11 @@ a:link {
 a:visited {
     text-decoration: none;
     color: inherit;
+}
+
+h2 {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
 }
 </style>

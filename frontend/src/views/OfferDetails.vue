@@ -1,6 +1,8 @@
 <template>
     <div class="container offer-detail">
-        <div v-if="offer" class="single-offer">
+        <h2 class="error-message" v-if="pending">Načítavanie...</h2>
+        <h2 class="error-message" v-if="error && !pending">{{ error }}</h2>
+        <div v-if="offer && !pending" class="single-offer">
             <h1>{{ offer.make }} {{ offer.model }}</h1>
             <div class="info">
                 <div class="info-flex-item">
@@ -32,25 +34,20 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import useFetch from '@/composables/useFetch'
+import { onMounted } from 'vue'
 
 export default {
     props: ["id"],
     setup(props) {
 
-        const offer = ref(null)
+        const { data: offer, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/${props.id}`)
 
         onMounted(async () => {
-            try {
-                const res = await fetch(`${process.env.VUE_APP_API_URL}/api/offers/${props.id}`)
-                offer.value = await res.json()
-                console.log(offer)
-            } catch (error) {
-                console.log(error);
-            }
+            await getData()
         })
 
-        return { offer }
+        return { offer, pending, error }
     }
 
 }
@@ -59,6 +56,7 @@ export default {
 <style scoped>
 h1 {
     text-align: center;
+    margin-bottom: 0;
 }
 
 .offer-detail {

@@ -3,21 +3,23 @@
         <SearchBar />
         <div class="offers-container">
             <h1>Najnovšie inzeráty</h1>
-            <div v-if="latestOffers" class="offers">
+            <h2 class="error-message" v-if="pending">Načítavanie...</h2>
+            <h2 class="error-message" v-if="error && !pending">{{ error }}</h2>
+            <div v-if="latestOffers && !pending" class="offers">
                 <div class="flex-offer" v-for="offer in latestOffers" :key="offer._id">
                     <router-link :to="{ name: 'offer', params: { id: offer._id } }">
                         <OfferCard :offer="offer" />
                     </router-link>
                 </div>
             </div>
-            <h2 class="error-message" v-else>There has been an error</h2>
         </div>
 
     </div>
 </template>
 
 <script>
-import { onMounted, ref } from "vue"
+import useFetch from "@/composables/useFetch"
+import { onMounted } from "vue"
 
 import OfferCard from "../../components/OfferCard"
 import SearchBar from "./SearchBar"
@@ -27,19 +29,13 @@ export default {
         SearchBar
     },
     setup() {
-        //TODO: add proper error message, now shows up when loading
-        const latestOffers = ref(null)
+        const { data: latestOffers, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/latest`)
 
         onMounted(async () => {
-            try {
-                const res = await fetch(`${process.env.VUE_APP_API_URL}/api/offers/latest`)
-                latestOffers.value = await res.json()
-            } catch (error) {
-                console.log(error);
-            }
+            getData()
         })
 
-        return { latestOffers }
+        return { latestOffers, pending, error }
     }
 }
 </script>
