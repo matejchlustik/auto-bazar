@@ -39,6 +39,12 @@ input {
   padding: 15px;
 }
 
+.container {
+  margin: 0 auto;
+  width: 60%;
+  box-sizing: border-box;
+}
+
 @media only screen and (max-width: 600px) {
 
   #app {

@@ -39,6 +39,14 @@ const offerSchema = mongoose.Schema({
             type: String,
             required: [true, "Please add a city"]
         },
+        street: {
+            type: String,
+            required: [true, "Please add a street"]
+        },
+        house_number: {
+            type: String,
+            required: [true, "Please add a house number"]
+        },
         postal_code: {
             type: String,
             required: [true, "Please add a postal code"]

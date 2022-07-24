@@ -1,5 +1,5 @@
 <template>
-    <div class="search-results">
+    <div class="container">
         <div class="offers-container">
             <div class="flex-offer" v-for="offer in offers" :key="offer._id">
                 <router-link :to="{ name: 'offer', params: { id: offer._id } }">
@@ -47,12 +47,6 @@ export default {
 </script>
 
 <style scoped>
-.search-results {
-    margin: 0 auto;
-    width: 60%;
-    box-sizing: border-box;
-}
-
 .offers-container {
     display: flex;
     flex-wrap: wrap;

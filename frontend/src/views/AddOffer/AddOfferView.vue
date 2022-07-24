@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container form-container">
     <h1>Pridanie inzerátu</h1>
     <form @submit.prevent="handleSubmit" v-if="!err">
       <div class="form-content">
@@ -27,6 +27,10 @@
               v-model="formData.contact.name" />
             <FormInput placeholder="Nitra" label="Mesto" type="text" :error="formErrors.contact.city"
               v-model="formData.contact.city" />
+            <FormInput placeholder="Dolná" label="Ulica" type="text" :error="formErrors.contact.street"
+              v-model="formData.contact.street" />
+            <FormInput placeholder="41" label="Číslo domu" type="text" :error="formErrors.contact.house_number"
+              v-model="formData.contact.house_number" />
             <FormInput placeholder="945 22" label="PSČ" type="text" :error="formErrors.contact.postal_code"
               v-model="formData.contact.postal_code" />
             <FormInput placeholder="+421 123 123" label="Tel.číslo" type="text" :error="formErrors.contact.number"
@@ -72,6 +76,8 @@ export default {
       contact: {
         name: "",
         city: "",
+        street: "",
+        house_number: "",
         postal_code: "",
         number: "",
         email: ""
@@ -148,18 +154,16 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.form-container {
   background-color: #fff;
-  margin: 0 auto;
   margin-bottom: 20px;
   padding: 15px 0px;
-  width: 60%;
   text-align: center;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
 }
 
-.container h1 {
+.form-container h1 {
   padding: 24px;
   padding-bottom: 0px;
   margin: 0;
@@ -218,7 +222,7 @@ input[type=submit]:active {
     flex-direction: column;
   }
 
-  .container {
+  .form-container {
     margin: 0 auto;
     width: 85%;
   }

@@ -1,16 +1,18 @@
 <template>
-    <div class="home">
+    <div class="container">
         <SearchBar />
         <div class="offers-container">
             <h1>Najnovšie inzeráty</h1>
-            <div class="offers">
+            <div v-if="latestOffers" class="offers">
                 <div class="flex-offer" v-for="offer in latestOffers" :key="offer._id">
                     <router-link :to="{ name: 'offer', params: { id: offer._id } }">
                         <OfferCard :offer="offer" />
                     </router-link>
                 </div>
             </div>
+            <h2 class="error-message" v-else>There has been an error</h2>
         </div>
+
     </div>
 </template>
 
@@ -25,13 +27,13 @@ export default {
         SearchBar
     },
     setup() {
+        //TODO: add proper error message, now shows up when loading
         const latestOffers = ref(null)
 
         onMounted(async () => {
             try {
                 const res = await fetch(`${process.env.VUE_APP_API_URL}/api/offers/latest`)
-                const data = await res.json()
-                latestOffers.value = data;
+                latestOffers.value = await res.json()
             } catch (error) {
                 console.log(error);
             }
@@ -43,12 +45,6 @@ export default {
 </script>
 
 <style scoped>
-.home {
-    margin: 0 auto;
-    width: 60%;
-    box-sizing: border-box;
-}
-
 .offers-container {
     background-color: #fff;
     border-radius: 10px;

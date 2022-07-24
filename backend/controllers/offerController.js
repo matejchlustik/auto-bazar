@@ -26,7 +26,7 @@ const postOffer = asyncHandler(async (req, res) => {
     try {
         for (const image of req.body.images) {
             const uploadedResponse = await cloudinary.uploader.
-                upload(image.source, { upload_preset: "ml_default" })
+                upload(image.source, { upload_preset: "auto-bazar" })
             fileUrls.push(uploadedResponse.secure_url)
         }
         req.body.images = fileUrls

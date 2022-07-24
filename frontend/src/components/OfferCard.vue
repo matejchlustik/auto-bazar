@@ -1,10 +1,14 @@
 <template>
     <div class="card">
         <h2>{{ offer.make }} {{ offer.model }}</h2>
-        <span>cena: {{ offer.price }} €</span>
-        <span>kilometre: {{ offer.km }} km</span>
-        <span>ročník: {{ offer.year }}</span>
-        <img v-if="offer.images.length > 0" :src="offer.images[0]">
+        <ul>
+            <li>cena: {{ offer.price }} €</li>
+            <li>kilometre: {{ offer.km }} km</li>
+            <li>ročník: {{ offer.year }}</li>
+        </ul>
+        <div class="images" v-if="offer.images.length > 0">
+            <img :src="offer.images[0]">
+        </div>
         <div v-else class="no-images">
             <span>Žiadne obrázky</span>
         </div>
@@ -23,13 +27,34 @@ export default {
 .card {
     display: flex;
     flex-direction: column;
-    align-items: center;
     border-radius: 10px;
     background-color: #fff;
     height: 100%;
     box-sizing: border-box;
     padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.65) 0px 6px 8px;
+}
+
+ul {
+    padding: 0px 20px;
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 14px;
+}
+
+h2 {
+    margin: 10px 0px;
+    padding: 0px 20px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.images {
+    align-self: center;
+    display: flex;
+    justify-content: center;
 }
 
 img {
@@ -40,23 +65,6 @@ img {
     margin-top: auto;
 }
 
-span {
-    display: block;
-    margin: 10px 0px;
-    box-sizing: border-box;
-    padding: 0px 20px;
-    width: 100%;
-    text-align: left;
-}
-
-h2 {
-    margin: 10px 0px;
-    box-sizing: border-box;
-    padding: 0px 20px;
-    width: 100%;
-    text-align: left;
-    font-size: 22px;
-}
 
 .no-images {
     display: flex;

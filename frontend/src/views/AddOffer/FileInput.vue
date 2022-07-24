@@ -90,11 +90,10 @@ export default {
 
 <style scoped>
 .file-input-half {
-    margin: 0 auto;
+    margin: 0px 40px;
     flex-basis: 40%;
     display: flex;
     flex-direction: column;
-
 }
 
 h2 {
