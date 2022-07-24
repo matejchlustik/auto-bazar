@@ -19,10 +19,11 @@
 
 <script>
 import useFetch from "@/composables/useFetch"
-import { onMounted } from "vue"
-
 import OfferCard from "../../components/OfferCard"
 import SearchBar from "./SearchBar"
+
+import { onMounted } from "vue"
+
 export default {
     components: {
         OfferCard,
@@ -74,5 +75,26 @@ a:link {
 a:visited {
     text-decoration: none;
     color: inherit;
+}
+
+@media only screen and (max-width: 1120px) {
+    .flex-offer {
+        flex-basis: 40%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .offers {
+        flex-direction: column;
+    }
+
+    .flex-offer {
+        width: 75%;
+        margin: 3% auto;
+    }
+
+    .container {
+        width: 85%
+    }
 }
 </style>

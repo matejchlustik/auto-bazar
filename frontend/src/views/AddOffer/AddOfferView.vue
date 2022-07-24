@@ -50,12 +50,11 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
-
 import FormInput from "../../components/FormInput"
 import FileInput from "./FileInput"
-
 import getSelectValues from "../../composables/getSelectValues"
+
+import { reactive } from 'vue'
 
 export default {
   components: {

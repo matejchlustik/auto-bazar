@@ -13,12 +13,11 @@
 </template>
 
 <script>
-
+import OfferCard from "../components/OfferCard.vue"
 import useFetch from '@/composables/useFetch';
+
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
-
-import OfferCard from "../components/OfferCard.vue"
 
 export default {
     components: {
@@ -34,7 +33,6 @@ export default {
         })
 
         return { offers, pending, error }
-
     }
 }
 </script>
@@ -68,5 +66,31 @@ h2 {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
+}
+
+@media only screen and (max-width: 1120px) {
+    .flex-offer {
+        flex-basis: 40%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .container {
+        width: 85%
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .container {
+        width: 85%
+    }
+
+    .offers-container {
+        flex-direction: column;
+    }
+
+    .flex-offer {
+        margin: 4%
+    }
 }
 </style>

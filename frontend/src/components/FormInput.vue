@@ -58,6 +58,7 @@ select {
     color: rgba(0, 0, 0, 0.754);
     box-sizing: border-box;
     outline: none;
+    background-color: #fff;
 }
 
 input:focus {

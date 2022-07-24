@@ -26,6 +26,7 @@
 
 <script>
 import { ref } from 'vue';
+
 export default {
 
     setup(_, { emit }) {
@@ -72,7 +73,6 @@ export default {
                     fileId++;
                 }
             })
-
         }
 
         const removeFile = (fileId) => {

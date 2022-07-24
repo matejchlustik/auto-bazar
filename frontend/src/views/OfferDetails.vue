@@ -18,9 +18,8 @@
                     <h2>Kontakt</h2>
                     <ul>
                         <li>Meno: {{ offer.contact.name }}</li>
-                        <li>Adresa: {{ offer.contact.street }} {{ offer.contact.house_number }}, {{
-                                offer.contact.postal_code
-                        }}</li>
+                        <li>Adresa: {{ offer.contact.street }} {{ offer.contact.house_number }},
+                            {{ offer.contact.postal_code }}</li>
                         <li>Tel. číslo: {{ offer.contact.number }}</li>
                         <li>Email: {{ offer.contact.email }}</li>
                     </ul>
@@ -35,6 +34,7 @@
 
 <script>
 import useFetch from '@/composables/useFetch'
+
 import { onMounted } from 'vue'
 
 export default {
@@ -82,7 +82,7 @@ li {
 
 .info {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     box-sizing: border-box;
     padding: 25px;
     padding-top: 0;
@@ -92,5 +92,16 @@ li {
     box-sizing: border-box;
     padding: 10px;
     margin: 0 15px;
+}
+
+@media only screen and (max-width:800px) {
+    .info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container {
+        width: 85%;
+    }
 }
 </style>

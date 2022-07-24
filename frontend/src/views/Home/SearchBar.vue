@@ -28,12 +28,11 @@
 </template>
 
 <script>
+import FormInput from "../../components/FormInput"
+import getSelectValues from "../../composables/getSelectValues"
+
 import { reactive } from "vue"
 import { useRouter } from "vue-router"
-
-import FormInput from "../../components/FormInput"
-
-import getSelectValues from "../../composables/getSelectValues"
 
 export default {
     components: {
