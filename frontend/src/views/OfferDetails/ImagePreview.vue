@@ -25,7 +25,6 @@ export default {
         }
 
         return { main_image, changeImage }
-
     }
 }
 </script>
@@ -63,9 +62,10 @@ export default {
 .select-image {
     display: flex;
     justify-content: center;
-    margin: 0px 8px 0px 8px;
+    margin: 8px;
     flex-basis: 20%;
     cursor: pointer;
+    max-height: 150px;
 }
 
 .select-image img {

@@ -54,6 +54,8 @@ h2 {
     align-self: center;
     display: flex;
     justify-content: center;
+    max-height: 200px;
+    margin-top: auto;
 }
 
 img {
@@ -61,7 +63,6 @@ img {
     height: auto;
     object-fit: scale-down;
     margin: 15px 0px;
-    margin-top: auto;
 }
 
 
