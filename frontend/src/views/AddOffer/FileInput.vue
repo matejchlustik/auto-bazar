@@ -14,7 +14,7 @@
             @dragenter.prevent="setActive" @dragleave.prevent="setInactive">
             <h3 v-if="files.length === 0">Pre nahranie súborov ich potiahnite sem</h3>
             <div v-else class="images">
-                <img v-for="file in files" :key="file.id" :src="file.source" alt="previewImage"
+                <img v-for="file in files" :key="file.id" :src="file.source" alt="car image for upload"
                     @click.right.prevent="removeFile(file.id)" />
             </div>
         </div>

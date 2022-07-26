@@ -25,20 +25,22 @@
                     </ul>
                 </div>
             </div>
-            <div class="images">
-
-            </div>
+            <ImagePreview :images="offer.images" v-if="offer.images" />
         </div>
     </div>
 </template>
 
 <script>
 import useFetch from '@/composables/useFetch'
+import ImagePreview from "./ImagePreview.vue"
 
 import { onMounted } from 'vue'
 
 export default {
     props: ["id"],
+    components: {
+        ImagePreview
+    },
     setup(props) {
 
         const { data: offer, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/${props.id}`)
@@ -49,7 +51,6 @@ export default {
 
         return { offer, pending, error }
     }
-
 }
 </script>
 
@@ -63,6 +64,7 @@ h1 {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.65) 16px 16px 8px;
+    margin-bottom: 30px;
 }
 
 .single-offer {
@@ -84,7 +86,7 @@ li {
     display: flex;
     justify-content: space-evenly;
     box-sizing: border-box;
-    padding: 25px;
+    padding: 0px 25px 0px 25px;
     padding-top: 0;
 }
 

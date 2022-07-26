@@ -12,7 +12,6 @@
         <div class="error" v-if="error">
             <p>{{ error }}</p>
         </div>
-
     </div>
 </template>
 

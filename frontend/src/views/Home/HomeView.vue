@@ -19,7 +19,7 @@
 
 <script>
 import useFetch from "@/composables/useFetch"
-import OfferCard from "../../components/OfferCard"
+import OfferCard from "@/components/OfferCard"
 import SearchBar from "./SearchBar"
 
 import { onMounted } from "vue"

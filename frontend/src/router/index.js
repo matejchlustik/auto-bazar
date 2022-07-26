@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Home/HomeView.vue'
 import AddOfferView from "../views/AddOffer/AddOfferView.vue"
 import SearchResults from "../views/SearchResults.vue"
-import OfferDetails from "../views/OfferDetails.vue"
+import OfferDetails from "../views/OfferDetails/OfferDetails.vue"
 
 const routes = [
   {

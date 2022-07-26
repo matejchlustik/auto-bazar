@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import OfferCard from "../components/OfferCard.vue"
+import OfferCard from "@/components/OfferCard.vue"
 import useFetch from '@/composables/useFetch';
 
 import { onMounted } from 'vue';

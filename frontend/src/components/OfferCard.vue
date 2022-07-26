@@ -7,7 +7,7 @@
             <li>ročník: {{ offer.year }}</li>
         </ul>
         <div class="images" v-if="offer.images.length > 0">
-            <img :src="offer.images[0]">
+            <img :src="offer.images[0]" alt="car image">
         </div>
         <div v-else class="no-images">
             <span>Žiadne obrázky</span>
