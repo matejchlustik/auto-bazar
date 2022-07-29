@@ -7,42 +7,43 @@
           <div class="quarter">
             <h2>Informácie o vozidle</h2>
             <FormInput label="Kategória vozidla" type="select" :options="vehicleCategories" :error="formErrors.category"
-              v-model="formData.category" />
+              v-model="formData.category" data-cy="category" />
             <FormInput label="Značka" type="select"
               :options="formData.category === 'Osobné a úžitkové autá' ? carMakes : motorcycleMakes"
-              :error="formErrors.category" v-model="formData.make" />
+              :error="formErrors.category" v-model="formData.make" data-cy="make" />
             <FormInput placeholder="Octavia" label="Model" type="text" :error="formErrors.model"
-              v-model="formData.model" />
+              v-model="formData.model" data-cy="model" />
             <FormInput label="Typ paliva" type="select" :options="fuelTypes" :error="formErrors.fuel"
-              v-model="formData.fuel" />
-            <FormInput placeholder="2010" label="Rok" type="number" :error="formErrors.year" v-model="formData.year" />
+              v-model="formData.fuel" data-cy="fuel" />
+            <FormInput placeholder="2010" label="Rok" type="number" :error="formErrors.year" v-model="formData.year"
+              data-cy="year" />
             <FormInput placeholder="24000" label="Najazdené kilometre" type="number" :error="formErrors.km"
-              v-model="formData.km" />
-            <FormInput placeholder="8000" label="Cena" type="number" :error="formErrors.price"
-              v-model="formData.price" />
+              v-model="formData.km" data-cy="km" />
+            <FormInput placeholder="8000" label="Cena" type="number" :error="formErrors.price" v-model="formData.price"
+              data-cy="price" />
           </div>
           <div class="quarter">
             <h2>Kontaktné informácie</h2>
             <FormInput placeholder="Martin Novák" label="Meno" type="text" :error="formErrors.contact.name"
-              v-model="formData.contact.name" />
+              v-model="formData.contact.name" data-cy="name" />
             <FormInput placeholder="Nitra" label="Mesto" type="text" :error="formErrors.contact.city"
-              v-model="formData.contact.city" />
+              v-model="formData.contact.city" data-cy="city" />
             <FormInput placeholder="Dolná" label="Ulica" type="text" :error="formErrors.contact.street"
-              v-model="formData.contact.street" />
+              v-model="formData.contact.street" data-cy="street" />
             <FormInput placeholder="41" label="Číslo domu" type="text" :error="formErrors.contact.house_number"
-              v-model="formData.contact.house_number" />
+              v-model="formData.contact.house_number" data-cy="house_number" />
             <FormInput placeholder="945 22" label="PSČ" type="text" :error="formErrors.contact.postal_code"
-              v-model="formData.contact.postal_code" />
+              v-model="formData.contact.postal_code" data-cy="postal_code" />
             <FormInput placeholder="+421 123 123" label="Tel.číslo" type="text" :error="formErrors.contact.number"
-              v-model="formData.contact.number" />
+              v-model="formData.contact.number" data-cy="number" />
             <FormInput placeholder="abc@gmail.com" label="Email" type="text" :error="formErrors.contact.email"
-              v-model="formData.contact.email" />
+              v-model="formData.contact.email" data-cy="email" />
           </div>
         </div>
         <FileInput @upload="handleUpload" @remove="removeFile" />
       </div>
       <div class="submit-btn">
-        <input type="submit" value="Pridať">
+        <input type="submit" value="Pridať" data-cy="submit">
       </div>
     </form>
     <h2 class="error-message" v-else>There has been an error</h2>
@@ -55,6 +56,7 @@ import getSelectValues from "@/composables/getSelectValues"
 import FileInput from "./FileInput"
 
 import { reactive } from 'vue'
+import { useRouter } from "vue-router"
 
 export default {
   components: {
@@ -63,6 +65,7 @@ export default {
   },
   setup() {
     const { motorcycleMakes, carMakes, vehicleCategories, fuelTypes, err } = getSelectValues()
+    const router = useRouter()
 
     const initialFormData = () => ({
       category: "",
@@ -112,7 +115,9 @@ export default {
           throw Error("Something went wrong")
         }
         const data = await res.json()
-        console.log(data);
+        console.log(data)
+        Object.assign(formData, initialFormData());
+        router.push("/")
       } catch (error) {
         console.log(error);
       }
@@ -122,14 +127,6 @@ export default {
       let validation = true
       if (formData.year.length !== 4 || !/^\d+$/.test(formData.year)) {
         formErrors.year = "Nesprávny rok"
-        validation = false
-      }
-      if (!/^\d+$/.test(formData.km)) {
-        formErrors.km = "Nesprávny formát, použite iba celé čísla"
-        validation = false
-      }
-      if (!/^\d+$/.test(formData.price)) {
-        formErrors.price = "Nesprávny formát, použite iba celé čísla"
         validation = false
       }
       if (!/^\d{3}\s+\d{2}/.test(formData.contact.postal_code)) {

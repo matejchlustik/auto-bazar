@@ -1,12 +1,12 @@
 <template>
-    <div class="input-div">
+    <div class="input-container">
         <label v-if="label">{{ label }}</label>
         <select v-if="type === 'select'" :value="modelValue" @input="handleInput" :required="required">
             <option value="" selected disabled>Vyberte z možností</option>
             <option v-for="option in options" :key="option" :value="option">{{ option }}</option>
         </select>
         <input v-else-if="type === 'text'" type="text" :placeholder="placeholder" :value="modelValue"
-            @input="handleInput" :required="required">
+            @input="handleInput" :required="required" spellcheck="false">
         <input v-else type="number" :placeholder="placeholder" :value="modelValue" @input="handleInput"
             :required="required">
         <div class="error" v-if="error">
@@ -36,7 +36,7 @@ export default {
 </script>
     
 <style scoped>
-.input-div {
+.input-container {
     display: flex;
     flex-direction: column;
     align-items: center;

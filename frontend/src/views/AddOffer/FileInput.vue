@@ -10,8 +10,8 @@
                 <p v-if="error">{{ error }}</p>
             </div>
         </div>
-        <div class="file-input" :class="{ active: active }" @drop.prevent="onDrop" @dragover.prevent="setActive"
-            @dragenter.prevent="setActive" @dragleave.prevent="setInactive">
+        <div class="file-input-dropzone" :class="{ active: active }" @drop.prevent="onDrop"
+            @dragover.prevent="setActive" @dragenter.prevent="setActive" @dragleave.prevent="setInactive">
             <h3 v-if="files.length === 0">Pre nahranie súborov ich potiahnite sem</h3>
             <div v-else class="images">
                 <img v-for="file in files" :key="file.id" :src="file.source" alt="car image for upload"
@@ -108,7 +108,7 @@ input {
     padding: 10px;
 }
 
-.file-input {
+.file-input-dropzone {
     display: flex;
     margin-top: 3%;
     border: 4px dashed rgb(86, 137, 255);
