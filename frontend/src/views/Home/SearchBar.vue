@@ -5,20 +5,24 @@
             <div class="form-content">
                 <div class="row">
                     <FormInput type="select" label="Kategória vozidla" :options="vehicleCategories"
-                        v-model="formData.category" />
+                        v-model="formData.category" data-cy="search-category" />
                     <FormInput type="select" label="Značka"
                         :options="formData.category === 'Osobné a úžitkové autá' ? carMakes : motorcycleMakes"
-                        :require="false" v-model="formData.make" />
-                    <FormInput type="text" label="Model" :require="false" v-model="formData.model" />
+                        :require="false" v-model="formData.make" data-cy="search-make" />
+                    <FormInput type="text" label="Model" :require="false" v-model="formData.model"
+                        data-cy="search-model" />
                     <FormInput type="select" label="Typ Paliva" :options="fuelTypes" :require="false"
-                        v-model="formData.fuel" />
+                        v-model="formData.fuel" data-cy="search-fuel" />
                 </div>
                 <div class="row bottom-row">
-                    <FormInput type="number" label="Rok" :require="false" v-model="formData.year" />
-                    <FormInput type="number" label="Najazdené kilometre" :require="false" v-model="formData.km" />
-                    <FormInput type="number" label="Cena" :require="false" v-model="formData.price" />
+                    <FormInput type="number" label="Rok" :require="false" v-model="formData.year"
+                        data-cy="search-year" />
+                    <FormInput type="number" label="Najazdené kilometre" :require="false" v-model="formData.km"
+                        data-cy="search-km" />
+                    <FormInput type="number" label="Cena" :require="false" v-model="formData.price"
+                        data-cy="search-price" />
                     <div class="submit-btn">
-                        <input type="submit" value="Hľadať">
+                        <input type="submit" value="Hľadať" data-cy="search-submit">
                     </div>
                 </div>
             </div>

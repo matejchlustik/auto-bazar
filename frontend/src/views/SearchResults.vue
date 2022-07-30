@@ -1,14 +1,18 @@
 <template>
     <div class="container">
-        <h2 class="error-message" v-if="pending">Načítavanie...</h2>
-        <h2 class="error-message" v-if="error && !pending">{{ error }}</h2>
-        <div class="offers-container" v-if="offers && !pending">
+        <h2 class="error-message" v-if="pending" data-cy="search-offer-fetch-loading">Načítavanie...</h2>
+        <h2 class="error-message" v-else-if="error && !pending" data-cy="search-offer-fetch-error">{{ error }}</h2>
+        <div class="offers-container" v-else-if="offers && offers.length > 0 && !pending" data-cy="offers-list">
             <div class="flex-offer" v-for="offer in offers" :key="offer._id">
                 <router-link :to="{ name: 'offer', params: { id: offer._id } }">
                     <OfferCard :offer="offer" />
                 </router-link>
             </div>
         </div>
+        <h2 class="error-message" v-else-if="offers && offers.length === 0 && !pending && !error"
+            data-cy="no-offers-found">
+            Nenašli sa žiadne výsledky
+        </h2>
     </div>
 </template>
 
@@ -29,9 +33,8 @@ export default {
         const { data: offers, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/search?${queryString}`)
 
         onMounted(async () => {
-            getData()
+            await getData()
         })
-
         return { offers, pending, error }
     }
 }

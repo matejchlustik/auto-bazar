@@ -14,7 +14,7 @@ const useFetch = (url) => {
             data.value = await res.json()
             pending.value = false
         } catch (err) {
-            error.value = err
+            error.value = err.message
             pending.value = false
         }
     }

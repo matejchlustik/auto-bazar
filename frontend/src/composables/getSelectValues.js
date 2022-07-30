@@ -21,7 +21,7 @@ const getSelectValues = () => {
             motorcycleMakes.value = (Object.values(motorcycleData)[0].map(item => item.name))
             carMakes.value = (Object.values(carData)[0].map(item => item.name))
         } catch (error) {
-            err.value = error
+            err.value = error.message
         }
     }
     getValues()

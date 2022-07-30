@@ -17,7 +17,6 @@ describe('FileInput.cy.js', () => {
     cy.wait(50)
     cy.get('.file-input-dropzone').should("not.have.class", "active")
     cy.get(".images").children().should('have.length', 2)
-
   })
 
   it("Prevents non image file from being dropped in", () => {
@@ -30,6 +29,5 @@ describe('FileInput.cy.js', () => {
     cy.get(".images").children().should('have.length', 2).first().rightclick()
     cy.get(".images").children().should('have.length', 1)
   })
-
 
 })
