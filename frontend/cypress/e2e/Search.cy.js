@@ -29,6 +29,7 @@ describe('Searching with SearchBar component', () => {
     cy.get('[data-cy="search-category"] > select').select("Osobné a úžitkové autá")
     cy.get('[data-cy="search-year"] > input').type("9999")
     cy.get('[data-cy="search-submit"]').click()
+
     cy.get('[data-cy="offers-list"]').should("not.exist")
     cy.get('[data-cy="no-offers-found"]').should("exist").and("contain", "Nenašli sa žiadne výsledky")
   })
