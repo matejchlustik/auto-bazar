@@ -43,10 +43,11 @@ export default {
     },
     setup(props) {
 
-        const { data: offer, pending, error, getData } = useFetch(`api/offers/${props.id}`)
+        const { data: offer, pending, error, getData } = useFetch(`/api/offers/${props.id}`)
 
         onMounted(async () => {
             await getData()
+            console.log(error)
         })
 
         return { offer, pending, error }
