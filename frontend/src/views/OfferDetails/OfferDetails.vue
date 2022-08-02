@@ -43,7 +43,7 @@ export default {
     },
     setup(props) {
 
-        const { data: offer, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/${props.id}`)
+        const { data: offer, pending, error, getData } = useFetch(`api/offers/${props.id}`)
 
         onMounted(async () => {
             await getData()

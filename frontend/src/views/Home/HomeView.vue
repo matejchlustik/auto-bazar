@@ -30,7 +30,7 @@ export default {
         SearchBar
     },
     setup() {
-        const { data: latestOffers, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/latest`)
+        const { data: latestOffers, pending, error, getData } = useFetch(`api/offers/latest`)
 
         onMounted(async () => {
             getData()

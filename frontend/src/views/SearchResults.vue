@@ -30,7 +30,7 @@ export default {
     setup() {
         const route = useRoute()
         const queryString = new URLSearchParams(route.query).toString();
-        const { data: offers, pending, error, getData } = useFetch(`${process.env.VUE_APP_API_URL}/api/offers/search?${queryString}`)
+        const { data: offers, pending, error, getData } = useFetch(`api/offers/search?${queryString}`)
 
         onMounted(async () => {
             await getData()
